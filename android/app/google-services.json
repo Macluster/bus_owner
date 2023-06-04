@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "693399239523",
+    "firebase_url": "https://bustracker-125b0-default-rtdb.firebaseio.com",
+    "project_id": "bustracker-125b0",
+    "storage_bucket": "bustracker-125b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693399239523:android:9dd47e38d4ba04d9f8b156",
+        "android_client_info": {
+          "package_name": "com.example.bus_owner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693399239523-pp9d42i8u7i2g7b5v3rb7qn9j9muthrv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDplI1lQP8uEcl6K6ai5eJ8JgoWfTtk30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "693399239523-pp9d42i8u7i2g7b5v3rb7qn9j9muthrv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693399239523:android:25501677c5d7029df8b156",
+        "android_client_info": {
+          "package_name": "com.example.bustracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693399239523-pp9d42i8u7i2g7b5v3rb7qn9j9muthrv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDplI1lQP8uEcl6K6ai5eJ8JgoWfTtk30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "693399239523-pp9d42i8u7i2g7b5v3rb7qn9j9muthrv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
