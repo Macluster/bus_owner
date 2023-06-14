@@ -24,7 +24,7 @@ class _DropDownListState extends State<DropDownList> {
                     width: screenWidth - 10,
                      decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Color.fromARGB(255, 240, 238, 238),
+          color: Color.fromARGB(255, 255, 255, 255),
         ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

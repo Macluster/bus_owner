@@ -1,6 +1,7 @@
 import 'package:bus_owner/Backend/SupabaseDatabase.dart';
 import 'package:bus_owner/Model/BusModel.dart';
 import 'package:bus_owner/Model/ReviewModel.dart';
+import 'package:bus_owner/Screens/BusReportPage.dart';
 import 'package:flutter/material.dart';
 
 import '../Components/ReviewCard.dart';
@@ -26,12 +27,18 @@ class _BusInformationPageState extends State<BusInformationPage> {
                 padding: const EdgeInsets.all(15),
                 child: Column(
                   children: [
+                  
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [TextButton(onPressed: (){
+                        Navigator.push(context,MaterialPageRoute(builder:(context)=>BusReportPage(widget.model)));
+                      }, child: Text("View Report"))],),
                     const SizedBox(
-                      height: 70,
+                      height: 50,
                     ),
                     Text(
                       widget.model.busName,
-                      style: TextStyle(fontSize: 40),
+                      style: TextStyle(fontSize: 40,color: Theme.of(context).primaryColor),
                     ),
                     Text(
                       widget.model.busNumber,
@@ -46,10 +53,10 @@ class _BusInformationPageState extends State<BusInformationPage> {
                       height: 50,
                     ),
                     Row(
-                      children: const [
+                      children:  [
                         Text(
                           "Reviews",
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: 20,color: Theme.of(context).primaryColor),
                         ),
                       ],
                     ),
@@ -87,7 +94,10 @@ class _BusInformationPageState extends State<BusInformationPage> {
       margin: EdgeInsets.only(bottom: 10),
       height: 100,
       width: double.infinity,
-      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)), color: Colors.white, boxShadow: [BoxShadow(blurStyle: BlurStyle.normal, blurRadius: 4, spreadRadius: 3, color: Color.fromARGB(255, 235, 231, 231))]),
+      decoration:BoxDecoration(
+        boxShadow: [BoxShadow(blurRadius: 50,color: Color.fromARGB(255, 207, 205, 205),spreadRadius: 1)],
+        
+        color: Color.fromARGB(255, 241, 243, 243),borderRadius: BorderRadius.all(Radius.circular(10))),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -107,7 +117,7 @@ class _BusInformationPageState extends State<BusInformationPage> {
             ),
             Text(
               title,
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500,color: Theme.of(context).primaryColor),
             )
           ],
         ),

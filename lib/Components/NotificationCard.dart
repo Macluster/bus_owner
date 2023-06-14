@@ -14,19 +14,13 @@ class NotificationCard extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 5),
+      margin: EdgeInsets.only(bottom: 10),
       width: double.infinity,
       height: 100,
       decoration:const BoxDecoration(
+        boxShadow: [BoxShadow(blurRadius: 50,color: Color.fromARGB(255, 207, 205, 205),spreadRadius: 1)],
         
-         gradient: SweepGradient(
-          colors: [ Color(0xff9796F0),
-        Color(0xffFBC7D4),],
-          stops: [0, 1],
-          center: Alignment.topLeft,
-        ),
-        
-        color: Colors.amber,borderRadius: BorderRadius.all(Radius.circular(10))),
+        color: Color.fromARGB(255, 241, 243, 243),borderRadius: BorderRadius.all(Radius.circular(10))),
       child:Padding(
         padding: const EdgeInsets.all(15),
         child: Column(

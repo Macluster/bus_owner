@@ -56,7 +56,7 @@ class _InputBusDetailsPageState extends State<InputBusDetailsPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor:  Theme.of(context).primaryColorLight,
         foregroundColor: Colors.black,
         leading: Icon(Icons.arrow_back),
         title: Text("Input Bus Details"),

@@ -19,16 +19,14 @@ class BusCard extends StatelessWidget
       },
       child: Container(
         width: double.infinity,
-        margin: EdgeInsets.only(bottom: 10),
+        margin: EdgeInsets.only(bottom: 15),
         
-        decoration:const BoxDecoration(  gradient: SweepGradient(
-            colors: [ Color(0xff9796F0),
-          Color(0xffFBC7D4),],
-            stops: [0, 1],
-            center: Alignment.topLeft,
-          ),color: Colors.amber,borderRadius: BorderRadius.all(Radius.circular(10))),
+        decoration:BoxDecoration(
+        boxShadow: [BoxShadow(blurRadius: 50,color: Color.fromARGB(255, 214, 213, 213),spreadRadius: 1)],
+        
+        color: Color.fromARGB(255, 241, 243, 243),borderRadius: BorderRadius.all(Radius.circular(10))),
         child:Padding(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.all(17),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
