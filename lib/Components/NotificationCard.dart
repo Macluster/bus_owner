@@ -17,7 +17,8 @@ class NotificationCard extends StatelessWidget
       margin: EdgeInsets.only(bottom: 10),
       width: double.infinity,
       height: 100,
-      decoration:const BoxDecoration(
+      decoration:BoxDecoration(
+        border: Border.all(color: Colors.amber,width: 1),
         boxShadow: [BoxShadow(blurRadius: 50,color: Color.fromARGB(255, 207, 205, 205),spreadRadius: 1)],
         
         color: Color.fromARGB(255, 241, 243, 243),borderRadius: BorderRadius.all(Radius.circular(10))),

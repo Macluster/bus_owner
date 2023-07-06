@@ -22,6 +22,7 @@ class BusCard extends StatelessWidget
         margin: EdgeInsets.only(bottom: 15),
         
         decoration:BoxDecoration(
+          border: Border.all(color: Color.fromARGB(255, 177, 120, 167),width: 1),
         boxShadow: [BoxShadow(blurRadius: 50,color: Color.fromARGB(255, 214, 213, 213),spreadRadius: 1)],
         
         color: Color.fromARGB(255, 241, 243, 243),borderRadius: BorderRadius.all(Radius.circular(10))),

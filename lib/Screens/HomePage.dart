@@ -1,9 +1,9 @@
-import 'dart:ui';
 
 import 'package:bus_owner/Backend/SupabaseDatabase.dart';
 import 'package:bus_owner/Components/NotificationCard.dart';
 import 'package:bus_owner/Model/NotificationModel.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 import '../Components/BusCard.dart';
 import '../Model/BusModel.dart';
@@ -33,17 +33,11 @@ class _HomPageState extends State<HomPage> {
             Container(
               height: 300,
             
-                child: Image.asset(
-              "assets/images/bus2.png",
+                child: Lottie.asset(
+              "assets/images/wave.json",
               fit: BoxFit.cover,
             )),
-            Container(
-              height: double.infinity,
-              width: double.infinity,
-                child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 10),
-              child: Container(height: double.infinity,width: double.infinity,color:  Colors.white.withOpacity(0.4),),
-            )),
+       
             Padding(
               padding: const EdgeInsets.all(15),
               child: SingleChildScrollView(
@@ -61,7 +55,7 @@ class _HomPageState extends State<HomPage> {
                               style: TextStyle(
                                   fontSize: 60,
                                   fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).primaryColorLight),
+                                  color: Colors.orange),
                             );
                           } else {
                             return Text("Loading");
@@ -69,7 +63,7 @@ class _HomPageState extends State<HomPage> {
                         }),
                     Text(
                       "Total Profit",
-                      style: TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 23),
+                      style: TextStyle(color: const Color.fromARGB(255, 238, 183, 101), fontSize: 23),
                     ),
                     SizedBox(
                       height: 80,

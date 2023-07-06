@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:bus_owner/Model/NotificationModel.dart';
 import 'package:bus_owner/Model/ReviewModel.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -154,4 +156,47 @@ class SupaBaseDatabase {
 
     return reportlist;
   }
+
+  Future<Map<String, double>> getNumberOFTypesOfPeople(int id)async
+  {
+
+      var data = await supabase
+            .from('Payment')
+            .select("userId")
+            .eq("busId", id);
+
+
+      var list =data as List;
+
+      var stlist=[];
+      var clist=[];
+
+    
+      for(int i=0;i<list.length;i++)
+      {
+        List stdata=await supabase.from("StCard").select("stId").eq("userId",list[i]['userId']);
+        if(stdata.isNotEmpty)
+        {
+          stlist.add(list[i]['userId']);
+        }
+
+      }
+
+      for(int i=0;i<list.length;i++)
+      {
+        List stdata=await supabase.from("SeniorCitizens").select("cid").eq("userId",list[i]['userId']);
+        if(stdata.isNotEmpty)
+        {
+          clist.add(list[i]['userId']);
+        }
+
+      }
+ 
+          return {"Elder People":stlist.length.toDouble(),"Student":clist.length.toDouble(),"Other":(list.length-stlist.length+clist.length).toDouble()};
+          
+
+  }
+
+
+
 }
