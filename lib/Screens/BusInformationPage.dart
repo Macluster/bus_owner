@@ -30,7 +30,7 @@ class _BusInformationPageState extends State<BusInformationPage> {
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Container(
-                        width: (76.2/100)*width,
+                        width: (76/100)*width,
                         
                         child: Column(
                           children: [

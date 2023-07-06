@@ -205,7 +205,7 @@ class _GraphViewState extends State<GraphView> {
           int.parse(element.date.split("-")[0]),
           int.parse(element.date.split("-")[1]),
           int.parse(element.date.split("-")[2]));
-      fares[date.weekday] = fares[date.weekday] + element.fare;
+      fares[date.weekday-1] = fares[date.weekday-1] + element.fare;
     });
     print("fares=");
     print(fares);

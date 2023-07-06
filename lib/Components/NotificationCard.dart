@@ -27,7 +27,7 @@ class NotificationCard extends StatelessWidget
         child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          Text(model.Who,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+          Text("Admin",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
           SizedBox(height: 5,),
           Text(model.Content,style: TextStyle(fontSize: 15))
          

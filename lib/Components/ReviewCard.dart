@@ -19,13 +19,13 @@ class ReviewCard extends StatelessWidget {
      
      
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(5),
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const CircleAvatar(
               backgroundImage: NetworkImage(
                   'https://www.bing.com/th?id=OIP.00aB240RvJoffc9YCuBSewHaHG&w=185&h=160&c=8&rs=1&qlt=90&o=6&dpr=1.1&pid=3.1&rm=2')),
           const SizedBox(
-            width: 20,
+            width: 10,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +44,7 @@ class ReviewCard extends StatelessWidget {
                 height: 10,
               ),
               Container(
-                width: 200,
+               
                 child: Text(model.review),
               ),
             ],
