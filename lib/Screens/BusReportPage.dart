@@ -2,10 +2,12 @@ import 'package:bus_owner/Backend/SupabaseDatabase.dart';
 import 'package:bus_owner/Components/WeeklyBargraph.dart';
 import 'package:bus_owner/Model/BarChartModel.dart';
 import 'package:bus_owner/Model/BusReportModel.dart';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-
+import 'package:pie_chart/pie_chart.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../Model/BusModel.dart';
 
 class BusReportPage extends StatefulWidget {
@@ -19,8 +21,6 @@ class BusReportPage extends StatefulWidget {
 class _BusReportPageState extends State<BusReportPage> {
   String startDate = "";
   String endDate = "";
-
-  bool ReportFlag = false;
 
   @override
   void initState() {
@@ -75,16 +75,16 @@ class _BusReportPageState extends State<BusReportPage> {
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime.now()
                                         .subtract(Duration(days: 500)),
-                                    lastDate:
-                                        DateTime.now().add(Duration(days: 500)));
+                                    lastDate: DateTime.now()
+                                        .add(Duration(days: 500)));
                                 print(startDate);
-          
+
                                 startDate = sDate.toString().split(" ")[0];
                                 if (startDate == "null") {
                                   startDate = "";
                                   Fluttertoast.showToast(msg: "Select a Date");
                                 }
-          
+
                                 setState(() {});
                               },
                               child: Text(
@@ -96,8 +96,8 @@ class _BusReportPageState extends State<BusReportPage> {
                                     initialDate: DateTime.now(),
                                     firstDate: DateTime.now()
                                         .subtract(Duration(days: 500)),
-                                    lastDate:
-                                        DateTime.now().add(Duration(days: 500)));
+                                    lastDate: DateTime.now()
+                                        .add(Duration(days: 500)));
                                 endDate = eDate.toString().split(" ")[0];
                                 if (endDate == "null") {
                                   endDate = "";
@@ -105,18 +105,10 @@ class _BusReportPageState extends State<BusReportPage> {
                                 }
                                 setState(() {});
                               },
-                              child: Text(endDate == "" ? "End Date" : endDate)),
+                              child:
+                                  Text(endDate == "" ? "End Date" : endDate)),
                         ],
                       ),
-                      TextButton(
-                          onPressed: () {
-                            setState(() {
-                              ReportFlag = ReportFlag == false ? true : false;
-                            });
-                          },
-                          child: Text(ReportFlag == false
-                              ? "View analytics"
-                              : "View Records"))
                     ],
                   ),
                   // TableView(widget.model, startDate, endDate)
@@ -126,9 +118,8 @@ class _BusReportPageState extends State<BusReportPage> {
                       builder:
                           (context, AsyncSnapshot<List<BusReportModel>> snap) {
                         if (snap.hasData) {
-                          return ReportFlag == false
-                              ? TableView(snap, startDate, endDate)
-                              : GraphView(snap, startDate, endDate);
+                          return GraphView(
+                              snap, widget.model.busId, startDate, endDate);
                         } else {
                           return Text("Loading");
                         }
@@ -143,100 +134,12 @@ class _BusReportPageState extends State<BusReportPage> {
   }
 }
 
-Widget TitleCard(String title, Color color) {
-  return Container(
-      alignment: Alignment.center,
-      margin: EdgeInsets.all(1),
-      color: color,
-      height: 30,
-      width: 100,
-      child: Text(title));
-}
-
-Widget RecordCard(BusReportModel model) {
-  return Container(
-    child: Row(
-      children: [
-        TitleCard(model.userName, Color.fromARGB(255, 173, 110, 110)),
-        TitleCard(model.fromBusstop, Color.fromARGB(255, 173, 110, 110)),
-        TitleCard(model.toBusStop, Color.fromARGB(255, 173, 110, 110)),
-        TitleCard(model.date, Color.fromARGB(255, 173, 110, 110)),
-        TitleCard(model.fare.toString(), Color.fromARGB(255, 173, 110, 110)),
-      ],
-    ),
-  );
-}
-
-class TableView extends StatelessWidget {
-  AsyncSnapshot<List<BusReportModel>> snap;
-  String startDate;
-  String endDate;
-
-  TableView(this.snap, this.startDate, this.endDate);
-
-  @override
-  Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TitleCard("Bus Name", Colors.amber),
-            Container(
-              height: 400,
-              width: 100,
-              child: ListView.builder(
-                  itemCount: snap.data!.length,
-                  itemBuilder: (context, index) {
-                    return TitleCard(
-                        snap.data![index].busName, Colors.lightBlue);
-                  }),
-            )
-          ],
-        ),
-        Container(
-          width: width - 135,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    TitleCard("User Name", Colors.amber),
-                    TitleCard("from", Colors.amber),
-                    TitleCard("to", Colors.amber),
-                    TitleCard("Date", Colors.amber),
-                    TitleCard("Fare", Colors.amber),
-                  ],
-                ),
-                Container(
-                  height: 400,
-                  width: 510,
-                  child: ListView.builder(
-                      itemCount: snap.data!.length,
-                      itemBuilder: (context, index) {
-                        return RecordCard(snap.data![index]);
-                      }),
-                )
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class GraphView extends StatefulWidget {
   AsyncSnapshot<List<BusReportModel>> snap;
   String startDate;
   String endDate;
-  GraphView(this.snap, this.startDate, this.endDate);
+  int busId;
+  GraphView(this.snap, this.busId, this.startDate, this.endDate);
 
   @override
   State<GraphView> createState() => _GraphViewState();
@@ -247,7 +150,7 @@ class _GraphViewState extends State<GraphView> {
   List<BarChartModel> data2 = [];
 
   void getPeopleByDate() {
-    var agelist = [0,0,0,0];
+    var agelist = [0, 0, 0, 0];
     widget.snap.data!.forEach((element) {
       var dobYear = element.userDob.split("-")[0];
 
@@ -285,6 +188,14 @@ class _GraphViewState extends State<GraphView> {
     });
 
     setState(() {});
+  }
+
+  int getTotalFare() {
+    int sum = 0;
+    widget.snap.data!.forEach((element) {
+      sum = sum + element.fare;
+    });
+    return sum;
   }
 
   void getFareOfEachDay() {
@@ -332,27 +243,108 @@ class _GraphViewState extends State<GraphView> {
     setState(() {});
   }
 
+  Map<String, double> dataMap = {"Elder People":0,"Student":0};
+
+  getNumberOFTypesOfPeople() async {
+    dataMap = await SupaBaseDatabase().getNumberOFTypesOfPeople(widget.busId)
+        as Map<String, double>;
+
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getNumberOFTypesOfPeople();
+  }
+
   @override
   Widget build(BuildContext context) {
     getFareOfEachDay();
     getPeopleByDate();
+
     // TODO: implement build
     return Column(
       children: [
-        SizedBox(height: 50,),
-         const  Align(
-        alignment: Alignment.centerLeft,
-        child: Text("Total fares per each day",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w400),)),
-         SizedBox(height: 30,),
-        Bargraph(data), 
-      
+        SizedBox(
+          height: 50,
+        ),
+          
+        Text(
+          getTotalFare().toString(),
+          style: TextStyle(fontSize: 70, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          "Total Fare",
+          style: TextStyle(color: Colors.blueGrey, fontSize: 25),
+        ),
+        SizedBox(
+          height: 70,
+        ),
+        const Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Total fares per each day",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+            )),
+        SizedBox(
+          height: 30,
+        ),
+        Bargraph(data),
+        SizedBox(
+          height: 100,
+        ),
+        const Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "People in age range",
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+            )),
+       const SizedBox(
+          height: 30,
+        ),
+        Bargraph(data2),
+            const SizedBox(
+          height: 60,
+        ),
+          const Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Types of people",
 
-      SizedBox(height: 100,),
-    const  Align(
-        alignment: Alignment.centerLeft,
-        child: Text("People in age range",style: TextStyle(fontSize: 25,fontWeight: FontWeight.w400),)),
-         SizedBox(height: 30,),
-      Bargraph(data2)],
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
+            )),
+        SizedBox(height: 50,),
+        PieChart(dataMap: dataMap),
+      ],
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
