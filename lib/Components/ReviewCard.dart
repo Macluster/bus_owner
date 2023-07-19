@@ -25,7 +25,7 @@ class ReviewCard extends StatelessWidget {
               backgroundImage: NetworkImage(
                   'https://www.bing.com/th?id=OIP.00aB240RvJoffc9YCuBSewHaHG&w=185&h=160&c=8&rs=1&qlt=90&o=6&dpr=1.1&pid=3.1&rm=2')),
           const SizedBox(
-            width: 10,
+            width: 5,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,9 +33,9 @@ class ReviewCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(model.userName),
+                  Text(model.userName,style: TextStyle(fontSize: 14),),
                   const SizedBox(
-                    width: 10,
+                    width: 5,
                   ),
                   RatingStartComponent(rating:model.rating, isEditable: false,)
                 ],

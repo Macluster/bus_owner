@@ -155,6 +155,7 @@ class _GraphViewState extends State<GraphView> {
       var dobYear = element.userDob.split("-")[0];
 
       int age = DateTime.now().year - int.parse(dobYear);
+      print("age==");
       print(age);
 
       if (age >= 10 && age < 20) {
@@ -166,12 +167,7 @@ class _GraphViewState extends State<GraphView> {
       } else if (age >= 50 && age < 70) {
         agelist[3] = agelist[3] + 1;
       }
-agelist[0]=45;
-agelist[1]=60;
 
-agelist[2]=30;
-
-agelist[3]=20;
 
       data2 = [
         BarChartModel(

@@ -24,90 +24,119 @@ class _BusInformationPageState extends State<BusInformationPage> {
       body: SafeArea(
         child: SizedBox(
           width: double.infinity,
-          child:  Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
+          child: Stack(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    flex: 4,
+                    child: FractionallySizedBox(
                       child: Container(
-                        width: (76/100)*width,
-                        
-                        child: Column(
-                          children: [
-                          
-                          
-                            const SizedBox(
-                              height: 50,
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  widget.model.busName+" Bus",
-                                  style: TextStyle(fontSize: 40,color: Theme.of(context).primaryColor),
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 50,
                                 ),
-                              ),
-                            ),
-                           
-                            const SizedBox(
-                              height: 50,
-                            ),
-                            ItemCard("assets/images/location.png", widget.model.busCurrentLocation),
-                            ItemCard("assets/images/waste.png", widget.model.startingTime),
-                            ItemCard("assets/images/license-plate.png", widget.model.busNumber),
-                            
-                            const SizedBox(
-                              height: 50,
-                            ),
-                            Row(
-                              children:  [
-                                Text(
-                                  "Reviews",
-                                  style: TextStyle(fontSize: 20,color: Theme.of(context).primaryColor),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      widget.model.busName + " Bus",
+                                      style: TextStyle(
+                                          fontSize: 40, color: Colors.black),
+                                    ),
+                                  ),
                                 ),
+                                const SizedBox(
+                                  height: 50,
+                                ),
+                                ItemCard("assets/images/location.png",
+                                    widget.model.busCurrentLocation),
+                                ItemCard("assets/images/waste.png",
+                                    widget.model.startingTime),
+                                ItemCard("assets/images/license-plate.png",
+                                    widget.model.busNumber),
+                                
+                                const SizedBox(
+                                  height: 50,
+                                ),
+                               Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Reviews",
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                    ),
+                                  
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                FutureBuilder(
+                                    future: SupaBaseDatabase()
+                                        .getReviews(widget.model.busId),
+                                    builder: (context,
+                                        AsyncSnapshot<List<ReviewModel>> snap) {
+                                      if (!snap.hasData) {
+                                        return Text("Loading");
+                                      } else {
+                                        return Container(
+                                          height: 250,
+                                          child: ListView.builder(
+                                              itemCount: snap.data!.length,
+                                              itemBuilder: (context, index) {
+                                                return ReviewCard(
+                                                    snap.data![index]);
+                                              }),
+                                        );
+                                      }
+                                    })
                               ],
                             ),
-                            const SizedBox(
-                              height: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: FractionallySizedBox(
+                      child: Container(
+                        width: double.infinity,
+                        color: Colors.amber,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 30,
                             ),
-                            FutureBuilder(
-                                future: SupaBaseDatabase().getReviews(widget.model.busId),
-                                builder: (context, AsyncSnapshot<List<ReviewModel>> snap) {
-                                  if (!snap.hasData) {
-                                    return Text("Loading");
-                                  } else {
-                                    return Container(
-                                      height: 250,
-                                      child: ListView.builder(
-                                          itemCount: snap.data!.length,
-                                          itemBuilder: (context, index) {
-                                            return ReviewCard(snap.data![index]);
-                                          }),
-                                    );
-                                  }
-                                })
+                            GestureDetector(
+                                onTap: () {
+                                   Navigator.push(context,MaterialPageRoute(builder:(context)=>BusReportPage(widget.model)));
+                                },
+                                child: Image.asset(
+                                  "assets/images/document.png",
+                                  height: 50,
+                                ))
                           ],
                         ),
                       ),
                     ),
-                    Container(
-                     
-                      width: (20/100)*width,
-                    color: Color.fromARGB(255, 233, 161, 194),
-                    child: Column(children: [
-                      SizedBox(height: 30,),
-                      GestureDetector(
-                        onTap: (){
-                            Navigator.push(context,MaterialPageRoute(builder:(context)=>BusReportPage(widget.model)));
-                        },
-                        child: Image.asset("assets/images/document.png",height: 50,))
-                    ],),
-                   
-                    )
-                  ],
-                ),
-           
+                  )
+                ],
+              ),
+             
+            ],
+          ),
         ),
       ),
     );
