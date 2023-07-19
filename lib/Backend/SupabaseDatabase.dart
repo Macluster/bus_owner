@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:bus_owner/Model/NotificationModel.dart';
 import 'package:bus_owner/Model/ReviewModel.dart';
+import 'package:bus_owner/Model/UserModel.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../Model/BusModel.dart';
@@ -12,7 +13,9 @@ class SupaBaseDatabase {
   final supabase = Supabase.instance.client;
 
   Future<List<BusModel>> GetBusData(int ownerID) async {
-    final data = await supabase.from('Buses').select().eq("ownerId", ownerID);
+        var id=await getCurrentUserId();
+
+    final data = await supabase.from('Buses').select().eq("ownerId", id);
 
     var list = data as List;
 
@@ -43,8 +46,10 @@ class SupaBaseDatabase {
   }
 
   Future<List<NotificationModel>> getNotifications(int ownerId) async {
+        var id=await getCurrentUserId();
+
     final data =
-        await supabase.from('Notifications').select().eq("ownerId", ownerId);
+        await supabase.from('Notifications').select().eq("ownerId", id);
     var list = data as List;
 
     List<NotificationModel> Notlist = [];
@@ -60,16 +65,17 @@ class SupaBaseDatabase {
   Future<int> getCurrentUserId() async {
     var email = Supabase.instance.client.auth.currentUser!.email;
     List data = await supabase
-        .from("Users")
-        .select("userId")
-        .eq("userEmail", email) as List;
-    print("userId=" + data[0]['userId'].toString());
+        .from("BusOwners")
+        .select("ownerId")
+        .eq("ownerEmail", email) as List;
+    print("userId=" + data[0]['ownerId'].toString());
 
-    return data[0]['userId'] as int;
+    return data[0]['ownerId'] as int;
   }
 
   Future<int> getTotalFare() async {
-    final data = await supabase.from('Payment').select().eq("ownerId", 1);
+    var id=await getCurrentUserId();
+    final data = await supabase.from('Payment').select().eq("ownerId", id);
 
     var list = data as List;
     int total = 0;
@@ -81,20 +87,28 @@ class SupaBaseDatabase {
   }
 
   void InsertBusData(BusModel model) async {
+        var id=await getCurrentUserId();
+
     print("routeIndex=" + model.startStop.toString());
     await supabase.from('Buses').insert({
       "busName": model.busName,
-      "ownerId": model.ownerId,
+      "ownerId": id,
       "busRoute": model.busRoute,
       "busNumber": model.busNumber,
       "busCurrentLocation": 0,
       "startStop": model.startStop,
       "endStop": model.endStop,
-      "startingTime": model.startingTime
+      "startingTime": model.startingTime,
+      "peopleInBus":0,
+      "availableSeats":30,
+      "averageSpeed":20
     });
   }
 
   Future<List<ReviewModel>> getReviews(int busId) async {
+       
+      
+
     final data = await supabase.from('Review').select().eq("busId", busId);
     var list = data as List;
 
@@ -116,6 +130,7 @@ class SupaBaseDatabase {
   }
 
   Future<List<BusReportModel>> getBusReport(int busId,String startDate,String endDate) async {
+    
     List  data=[];
     if(startDate=="" || endDate==""||startDate=="null"||endDate=="null")
     {
@@ -195,6 +210,16 @@ class SupaBaseDatabase {
           return {"Elder People":stlist.length.toDouble(),"Student":clist.length.toDouble(),"Other":(list.length-stlist.length+clist.length).toDouble()};
           
 
+  }
+
+   void AddUserDetails(BusOwnerModel model) async {
+    await supabase.from("BusOwners").insert({
+      "ownerName": model.ownerName,
+      "ownerNumber": model.ownerNumber,
+      "ownerEmail": model.ownerEmail,
+      "ownerAddress": model.ownerAddress,
+      
+    });
   }
 
 
